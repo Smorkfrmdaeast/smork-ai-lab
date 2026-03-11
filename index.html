@@ -4,286 +4,170 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMORK AI LAB 🚀</title>
+<meta name="description" content="SMORK AI LAB – Modern AI tool interface with Chatbot, Text Generator, and Prompt Builder built with futuristic SaaS UI.">
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
 <style>
-/* BASIC RESET */
-* { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif; }
-body { background: #0A0F2C; color: #fff; overflow-x:hidden; transition: 0.3s; }
+/* ---------------- Base ---------------- */
+* { box-sizing: border-box; margin:0; padding:0; font-family: 'Poppins', sans-serif; }
+body { background:#0A0F2C; color:#fff; transition: 0.4s; }
+.light { background:#f5f5f5; color:#111; }
+.container { max-width: 500px; margin:auto; padding:20px; }
 
-/* NEON COLORS */
-:root {
-  --primary: #00E0FF;
-  --accent: #8A2BE2;
-  --success: #28A745;
-  --danger: #FF4D4D;
-  --card-bg: rgba(20,30,60,0.8);
-  --hover-bg: rgba(0,224,255,0.1);
-}
+/* ---------------- Hero ---------------- */
+.hero { text-align:center; padding:40px 20px; background: linear-gradient(135deg,#0f3460,#16213e); border-radius:20px; box-shadow:0 0 20px rgba(0,224,255,0.4); position:relative; overflow:hidden; }
+.hero h1 { font-size:1.8rem; margin-bottom:10px; color:#00e0ff; }
+.hero p { font-size:1rem; margin-bottom:20px; color:#c0f7ff; }
+.cta { background:#00e0ff; color:#000; border:none; padding:12px 25px; border-radius:12px; font-weight:bold; cursor:pointer; transition:0.3s; }
+.cta:hover { background:#00c0ff; transform:scale(1.05); }
 
-/* CONTAINERS */
-.container { padding: 20px; max-width: 450px; margin:auto; }
-h1,h2,h3 { margin-bottom: 12px; }
+/* ---------------- Dashboard ---------------- */
+.dashboard { display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:20px; }
+.card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); padding:15px; border-radius:15px; text-align:center; cursor:pointer; transition:0.3s; box-shadow:0 0 15px rgba(0,224,255,0.2); }
+.card:hover { transform: scale(1.05); box-shadow:0 0 25px rgba(0,224,255,0.5); }
+.card h3 { margin-bottom:10px; font-size:1rem; }
+.card p { font-size:0.85rem; color:#c0f7ff; }
 
-/* BUTTONS */
-button {
-  padding: 10px 16px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:bold;
-  transition:0.2s;
-}
-button:hover { opacity:0.85; }
+/* ---------------- Chat ---------------- */
+.chat-container { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius:20px; padding:15px; margin-top:20px; max-height:300px; overflow-y:auto; }
+.message { margin:10px 0; padding:10px 15px; border-radius:20px; max-width:80%; position:relative; animation: fadeIn 0.5s; }
+.message.user { background: #00e0ff; color:#000; align-self:flex-end; margin-left:auto; }
+.message.ai { background: #1c2440; color:#fff; align-self:flex-start; }
+@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
 
-/* NEON BUTTONS */
-.primary { background: linear-gradient(90deg,var(--primary),var(--accent)); color:#0A0F2C; }
-.success { background: var(--success); color:#fff; }
-.danger { background: var(--danger); color:#fff; }
+/* ---------------- Input ---------------- */
+.chat-input { display:flex; gap:10px; margin-top:10px; }
+.chat-input input { flex:1; padding:10px 15px; border-radius:15px; border:none; outline:none; background: rgba(255,255,255,0.1); color:#fff; }
+.chat-input button { padding:10px 15px; border:none; border-radius:15px; background:#00e0ff; color:#000; font-weight:bold; cursor:pointer; transition:0.3s; }
+.chat-input button:hover { background:#00c0ff; transform:scale(1.05); }
 
-/* CARD UI */
-.card { background: var(--card-bg); padding:15px; border-radius:15px; margin-bottom:15px; box-shadow: 0 0 15px rgba(0,224,255,0.3); transition:0.2s; }
-.card:hover { box-shadow: 0 0 25px rgba(0,224,255,0.5); }
+/* ---------------- Dark/Light Toggle ---------------- */
+.toggle { padding:8px 12px; border:none; border-radius:12px; cursor:pointer; background:#00e0ff; color:#000; font-weight:bold; margin-bottom:20px; }
 
-/* QUICK ACTIONS */
-.actions { display:flex; justify-content:space-between; margin-bottom:20px; }
-.action-btn { flex:1; margin:0 5px; text-align:center; padding:10px; border-radius:12px; background: var(--card-bg); color:#fff; transition:0.2s; }
-.action-btn:hover { background: var(--hover-bg); }
+/* ---------------- Footer ---------------- */
+footer { margin-top:40px; text-align:center; font-size:0.8rem; color:#c0f7ff; }
 
-/* TRANSACTION FEED */
-.transaction { display:flex; justify-content:space-between; padding:10px; border-radius:12px; margin-bottom:10px; background: rgba(255,255,255,0.05); }
-.transaction.credit { color: var(--success); }
-.transaction.debit { color: var(--danger); }
-
-/* INPUTS */
-input[type=number], input[type=text] { width:100%; padding:10px; border-radius:10px; border:none; margin:8px 0; }
-
-/* NAVBAR */
-.navbar { display:flex; justify-content:space-around; position:fixed; bottom:0; width:100%; max-width:450px; background: var(--card-bg); padding:10px 0; border-radius:15px 15px 0 0; box-shadow:0 -2px 15px rgba(0,224,255,0.3); }
-.nav-item { color:#fff; font-size:1.2rem; cursor:pointer; transition:0.2s; }
-.nav-item.active { color: var(--primary); transform: scale(1.1); }
-
-/* CHAT INTERFACE */
-.chat-box { max-height:300px; overflow-y:auto; margin-bottom:10px; }
-.message { padding:8px 12px; border-radius:12px; margin-bottom:6px; max-width:80%; }
-.user { background: var(--primary); color:#0A0F2C; margin-left:auto; text-align:right; }
-.ai { background: var(--accent); color:#fff; margin-right:auto; }
-
-/* HERO */
-.hero { text-align:center; margin-bottom:20px; }
-.hero h1 { font-size:1.8rem; margin-bottom:10px; }
-.hero p { color:#8fa0b2; margin-bottom:15px; }
-
-/* TOGGLE */
-.toggle { position:absolute; top:20px; right:20px; padding:8px 12px; border-radius:12px; border:none; cursor:pointer; }
-
-/* ANIMATIONS */
-@keyframes pulse { 0%{ transform:scale(1); } 50%{ transform:scale(1.05);} 100%{ transform:scale(1);} }
-.pulse { animation: pulse 1.2s infinite; }
-
+/* ---------------- Responsive ---------------- */
+@media (max-width:500px){ .dashboard{grid-template-columns:1fr 1fr; gap:10px;} }
 </style>
 </head>
+
 <body>
-<div class="container">
+<div id="root"></div>
 
-<!-- THEME TOGGLE -->
-<button class="toggle" id="themeToggle">🌙</button>
+<script type="text/babel">
 
-<!-- HERO -->
-<div class="hero">
-  <h1>SMORK AI LAB 🚀</h1>
-  <p>Build faster with AI Tools. Generate text, prompts, and interact with AI assistants.</p>
-  <button class="primary pulse" id="startAI">Try AI Tools</button>
-</div>
+const { useState, useEffect, useRef } = React;
 
-<!-- WALLET CARD -->
-<div class="card">
-  <h3>Wallet Balance 💰</h3>
-  <h2 id="walletBalance">₦10,000</h2>
-</div>
+function App() {
+  const [theme,setTheme] = useState("dark");
+  const [activeTool,setActiveTool] = useState("home");
+  const [messages,setMessages] = useState([]);
+  const [input,setInput] = useState("");
+  const chatRef = useRef(null);
 
-<!-- QUICK ACTIONS -->
-<div class="actions">
-  <div class="action-btn" id="sendBtn">Send 💸</div>
-  <div class="action-btn" id="addBtn">Add ➕</div>
-  <div class="action-btn" id="aiBtn">AI 🤖</div>
-</div>
+  useEffect(()=>{ document.body.className=theme; },[theme]);
 
-<!-- TRANSACTION FEED -->
-<div class="card">
-  <h3>Recent Transactions 📝</h3>
-  <div id="transactionFeed">
-    <div class="transaction credit">Received ₦2,000</div>
-    <div class="transaction debit">Sent ₦500</div>
-  </div>
-</div>
+  useEffect(()=>{ chatRef.current?.scrollTo(0,chatRef.current.scrollHeight); },[messages]);
 
-<!-- CHAT / AI INTERFACE -->
-<div class="card" id="aiInterface" style="display:none;">
-  <h3>AI Chat 💬</h3>
-  <div class="chat-box" id="chatBox">
-    <div class="message ai">Hello! Ask me anything 🤖</div>
-  </div>
-  <input type="text" id="chatInput" placeholder="Type your question..."/>
-  <button class="primary" id="sendChat">Send</button>
-</div>
+  const handleSend = () => {
+    if(!input.trim()) return;
+    const userMsg = { type:"user", text:input };
+    setMessages([...messages,userMsg]);
+    setInput("");
 
-<!-- SEND MONEY PANEL -->
-<div class="card" id="sendPanel" style="display:none;">
-  <h3>Send Money 💸</h3>
-  <input type="number" id="sendAmount" placeholder="Amount">
-  <button class="success" id="confirmSend">Confirm</button>
-  <button class="danger" id="cancelSend">Cancel</button>
-</div>
+    // Simulate AI response with delay
+    setTimeout(()=>{
+      const aiMsg = { type:"ai", text:"This is a simulated AI response for: " + userMsg.text };
+      setMessages(prev=>[...prev, aiMsg]);
+    },1000);
+  };
 
-<!-- ADD MONEY PANEL -->
-<div class="card" id="addPanel" style="display:none;">
-  <h3>Add Money ➕</h3>
-  <input type="number" id="addAmount" placeholder="Amount">
-  <button class="success" id="confirmAdd">Confirm</button>
-  <button class="danger" id="cancelAdd">Cancel</button>
-</div>
+  return (
+    <div className="container">
+      <button className="toggle" onClick={()=>setTheme(theme==="dark"?"light":"dark")}>
+        {theme==="dark"?"🌙 DARK":"☀ LIGHT"}
+      </button>
 
-<!-- FOOTER WITH SOCIAL LINKS -->
-<div class="card" style="text-align:center; font-size:0.9rem;">
-  <p>Connect with SMORK 🚀</p>
-  <p>
-    <a href="https://www.instagram.com/smork_frmdaeast?igsh=MWwwMHowMGhvcmY0dg==" target="_blank" style="color: var(--primary); text-decoration:none;">Instagram</a> |
-    <a href="https://www.facebook.com/share/1DhHJPTRXL/" target="_blank" style="color: var(--primary); text-decoration:none;">Facebook</a> |
-    <a href="https://www.linkedin.com/in/smorkfrmdaeast" target="_blank" style="color: var(--primary); text-decoration:none;">LinkedIn</a> |
-    <a href="https://github.com/Smorkfrmdaeast" target="_blank" style="color: var(--primary); text-decoration:none;">GitHub</a>
-  </p>
-  <p>Email: <a href="mailto:ifeanyinuels32@gmail.com" style="color: var(--primary); text-decoration:none;">ifeanyinuels32@gmail.com</a></p>
-</div>
+      {/* HERO */}
+      {activeTool==="home" && (
+        <div className="hero">
+          <h1>Build Faster with AI Tools</h1>
+          <p>Generate text, prompts, and interact with AI assistants seamlessly.</p>
+          <button className="cta" onClick={()=>setActiveTool("dashboard")}>Try AI Tools</button>
+        </div>
+      )}
 
-<!-- BOTTOM NAV -->
-<div class="navbar">
-  <div class="nav-item active" id="navHome">🏠</div>
-  <div class="nav-item" id="navSend">💸</div>
-  <div class="nav-item" id="navAdd">➕</div>
-  <div class="nav-item" id="navAI">🤖</div>
-</div>
+      {/* DASHBOARD */}
+      {activeTool==="dashboard" && (
+        <>
+          <div className="dashboard">
+            <div className="card" onClick={()=>setActiveTool("chat")}>
+              <h3>AI Chatbot</h3>
+              <p>Interact with AI in real-time</p>
+            </div>
+            <div className="card" onClick={()=>setActiveTool("textgen")}>
+              <h3>Text Generator</h3>
+              <p>Generate AI text for any topic</p>
+            </div>
+            <div className="card" onClick={()=>setActiveTool("prompt")}>
+              <h3>Prompt Generator</h3>
+              <p>Create high-quality prompts easily</p>
+            </div>
+            <div className="card">
+              <h3>Coming Soon</h3>
+              <p>More AI tools</p>
+            </div>
+          </div>
+        </>
+      )}
 
-</div>
+      {/* CHAT */}
+      {activeTool==="chat" && (
+        <>
+          <div className="chat-container" ref={chatRef}>
+            {messages.map((m,i)=>(
+              <div key={i} className={`message ${m.type}`}>{m.text}</div>
+            ))}
+          </div>
+          <div className="chat-input">
+            <input placeholder="Type your message..." value={input} onChange={e=>setInput(e.target.value)} />
+            <button onClick={handleSend}>Send</button>
+          </div>
+        </>
+      )}
 
-<script>
-/* THEME TOGGLE */
-const toggleBtn = document.getElementById('themeToggle');
-let dark = true;
-toggleBtn.addEventListener('click', ()=>{
-  dark = !dark;
-  document.body.style.background = dark ? '#0A0F2C' : '#F5F7FA';
-  document.body.style.color = dark ? '#fff' : '#111';
-  toggleBtn.textContent = dark ? '🌙' : '☀️';
-});
+      {/* TEXT GENERATOR */}
+      {activeTool==="textgen" && (
+        <div className="dashboard">
+          <div className="card" style={{gridColumn:"span 2"}}>
+            <h3>Text Generator Tool</h3>
+            <p>Enter a prompt and generate AI-style text (simulated)</p>
+          </div>
+        </div>
+      )}
 
-/* NAVIGATION */
-const navHome = document.getElementById('navHome');
-const navSend = document.getElementById('navSend');
-const navAdd = document.getElementById('navAdd');
-const navAI = document.getElementById('navAI');
-const sendPanel = document.getElementById('sendPanel');
-const addPanel = document.getElementById('addPanel');
-const aiInterface = document.getElementById('aiInterface');
-const hero = document.querySelector('.hero');
+      {/* PROMPT GENERATOR */}
+      {activeTool==="prompt" && (
+        <div className="dashboard">
+          <div className="card" style={{gridColumn:"span 2"}}>
+            <h3>Prompt Generator Tool</h3>
+            <p>Build creative prompts easily (simulated)</p>
+          </div>
+        </div>
+      )}
 
-function resetPanels(){
-  sendPanel.style.display='none';
-  addPanel.style.display='none';
-  aiInterface.style.display='none';
-  hero.style.display='block';
-  navHome.classList.remove('active');
-  navSend.classList.remove('active');
-  navAdd.classList.remove('active');
-  navAI.classList.remove('active');
+      <footer>
+        SMORK AI LAB 🚀 | Portfolio Demo | Frontend Practice
+      </footer>
+    </div>
+  );
 }
 
-navHome.addEventListener('click',()=>{
-  resetPanels();
-  navHome.classList.add('active');
-});
-navSend.addEventListener('click',()=>{
-  resetPanels();
-  sendPanel.style.display='block';
-  navSend.classList.add('active');
-});
-navAdd.addEventListener('click',()=>{
-  resetPanels();
-  addPanel.style.display='block';
-  navAdd.classList.add('active');
-});
-navAI.addEventListener('click',()=>{
-  resetPanels();
-  aiInterface.style.display='block';
-  navAI.classList.add('active');
-});
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
-/* QUICK ACTIONS */
-document.getElementById('sendBtn').addEventListener('click',()=>navSend.click());
-document.getElementById('addBtn').addEventListener('click',()=>navAdd.click());
-document.getElementById('aiBtn').addEventListener('click',()=>navAI.click());
-
-/* WALLET & TRANSACTIONS */
-let wallet = 10000;
-const walletDisplay = document.getElementById('walletBalance');
-const transactionFeed = document.getElementById('transactionFeed');
-
-function addTransaction(type, amount){
-  const div = document.createElement('div');
-  div.className = 'transaction '+(type==='credit'?'credit':'debit');
-  div.textContent = (type==='credit'?'Received ':'Sent ') + '₦'+amount;
-  transactionFeed.prepend(div);
-  walletDisplay.textContent = '₦'+wallet;
-}
-
-/* SEND MONEY */
-document.getElementById('confirmSend').addEventListener('click',()=>{
-  const amt = Number(document.getElementById('sendAmount').value);
-  if(!amt || amt<=0){ alert('Enter valid amount'); return; }
-  if(amt>wallet){ alert('Insufficient funds'); return; }
-  wallet-=amt;
-  addTransaction('debit', amt);
-  document.getElementById('sendAmount').value='';
-  alert('Money sent ✅');
-});
-document.getElementById('cancelSend').addEventListener('click',()=>{
-  document.getElementById('sendAmount').value='';
-  navHome.click();
-});
-
-/* ADD MONEY */
-document.getElementById('confirmAdd').addEventListener('click',()=>{
-  const amt = Number(document.getElementById('addAmount').value);
-  if(!amt || amt<=0){ alert('Enter valid amount'); return; }
-  wallet+=amt;
-  addTransaction('credit', amt);
-  document.getElementById('addAmount').value='';
-  alert('Money added ✅');
-});
-document.getElementById('cancelAdd').addEventListener('click',()=>{
-  document.getElementById('addAmount').value='';
-  navHome.click();
-});
-
-/* AI CHAT SIMULATION */
-const chatBox = document.getElementById('chatBox');
-const chatInput = document.getElementById('chatInput');
-document.getElementById('sendChat').addEventListener('click',()=>{
-  const text = chatInput.value.trim();
-  if(!text) return;
-  const userMsg = document.createElement('div');
-  userMsg.className='message user';
-  userMsg.textContent = text;
-  chatBox.appendChild(userMsg);
-  chatInput.value='';
-  chatBox.scrollTop = chatBox.scrollHeight;
-  
-  setTimeout(()=>{
-    const aiMsg = document.createElement('div');
-    aiMsg.className='message ai';
-    aiMsg.textContent = "🤖 SMORK AI says: I'm a demo! Your question was '"+text+"'";
-    chatBox.appendChild(aiMsg);
-    chatBox.scrollTop = chatBox.scrollHeight;
-  },1000);
-});
 </script>
 </body>
-      </html>
+</html>
