@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMORK AI LAB</title>
+
+<!-- Tailwind CDN (great for phone coding) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+body{
+background:#05060f;
+color:white;
+font-family:system-ui;
+}
+
+/* glass cards */
+.glass{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,0.1);
+}
+
+/* neon glow */
+.neon{
+box-shadow:0 0 20px #3b82f6;
+}
+
+/* animated gradient background */
+.hero-bg{
+background:radial-gradient(circle at 20% 20%,#1e3a8a,transparent),
+radial-gradient(circle at 80% 30%,#9333ea,transparent),
+radial-gradient(circle at 50% 80%,#06b6d4,transparent);
+}
+
+/* typing dots */
+.typing span{
+animation:blink 1.5s infinite;
+}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+
+@keyframes blink{
+0%,100%{opacity:0}
+50%{opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero-bg min-h-screen flex flex-col justify-center items-center text-center px-6">
+
+<h1 class="text-4xl md:text-6xl font-bold mb-6">
+🚀 SMORK AI LAB
+</h1>
+
+<p class="text-gray-300 max-w-xl mb-6">
+Build Faster with AI Tools. Generate prompts, chat with AI assistants, and create smarter content.
+</p>
+
+<a href="#dashboard"
+class="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-xl neon">
+Try AI Tools
+</a>
+
+</section>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="py-20 px-6">
+
+<h2 class="text-3xl font-bold text-center mb-12">
+AI TOOL DASHBOARD
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+
+<div class="glass p-6 rounded-xl hover:scale-105 transition">
+<i class="fa-solid fa-robot text-blue-400 text-2xl mb-3"></i>
+<h3 class="font-bold">AI Chatbot</h3>
+<p class="text-sm text-gray-400">Talk with an AI assistant</p>
+<button onclick="openTool('chat')" class="mt-4 bg-blue-500 px-4 py-2 rounded">Launch</button>
+</div>
+
+<div class="glass p-6 rounded-xl hover:scale-105 transition">
+<i class="fa-solid fa-pen text-purple-400 text-2xl mb-3"></i>
+<h3 class="font-bold">Text Generator</h3>
+<p class="text-sm text-gray-400">Generate AI text instantly</p>
+<button onclick="openTool('text')" class="mt-4 bg-purple-500 px-4 py-2 rounded">Launch</button>
+</div>
+
+<div class="glass p-6 rounded-xl hover:scale-105 transition">
+<i class="fa-solid fa-lightbulb text-cyan-400 text-2xl mb-3"></i>
+<h3 class="font-bold">Prompt Generator</h3>
+<p class="text-sm text-gray-400">Create powerful prompts</p>
+<button onclick="openTool('prompt')" class="mt-4 bg-cyan-500 px-4 py-2 rounded">Launch</button>
+</div>
+
+</div>
+</section>
+
+
+<!-- CHATBOT -->
+<section id="chat" class="hidden px-6 pb-20 max-w-xl mx-auto">
+
+<h2 class="text-2xl font-bold mb-4">AI CHATBOT</h2>
+
+<div id="chatBox" class="glass p-4 rounded-xl h-80 overflow-y-auto mb-4"></div>
+
+<div class="flex gap-2">
+<input id="chatInput" class="flex-1 p-3 rounded text-black" placeholder="Ask something...">
+<button onclick="sendChat()" class="bg-blue-500 px-4 rounded">Send</button>
+</div>
+
+</section>
+
+
+<!-- TEXT GENERATOR -->
+<section id="text" class="hidden px-6 pb-20 max-w-xl mx-auto">
+
+<h2 class="text-2xl font-bold mb-4">AI TEXT GENERATOR</h2>
+
+<textarea id="textPrompt"
+class="w-full p-3 rounded text-black mb-3"
+placeholder="Enter prompt..."></textarea>
+
+<select id="tone" class="w-full p-3 rounded text-black mb-3">
+<option>Professional</option>
+<option>Friendly</option>
+<option>Creative</option>
+</select>
+
+<button onclick="generateText()" class="bg-purple-500 px-4 py-2 rounded">
+Generate
+</button>
+
+<div id="textResult" class="glass p-4 mt-4 rounded"></div>
+
+</section>
+
+
+<!-- PROMPT GENERATOR -->
+<section id="prompt" class="hidden px-6 pb-20 max-w-xl mx-auto">
+
+<h2 class="text-2xl font-bold mb-4">PROMPT GENERATOR</h2>
+
+<input id="topic"
+class="w-full p-3 rounded text-black mb-3"
+placeholder="Topic"/>
+
+<label class="text-sm">Creativity</label>
+<input id="creativity" type="range" min="1" max="10" class="w-full mb-4">
+
+<button onclick="generatePrompt()" class="bg-cyan-500 px-4 py-2 rounded">
+Generate Prompt
+</button>
+
+<div id="promptResult" class="glass p-4 mt-4 rounded"></div>
+
+</section>
+
+
+<!-- FEATURES -->
+<section class="py-20 px-6">
+
+<h2 class="text-3xl text-center font-bold mb-12">FEATURES</h2>
+
+<div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+
+<div class="glass p-6 rounded-xl text-center">
+⚡ Fast AI Tools
+</div>
+
+<div class="glass p-6 rounded-xl text-center">
+🧠 Smart Prompts
+</div>
+
+<div class="glass p-6 rounded-xl text-center">
+🚀 Productivity
+</div>
+
+<div class="glass p-6 rounded-xl text-center">
+💻 Developer Friendly
+</div>
+
+</div>
+</section>
+
+
+<!-- PRICING -->
+<section class="py-20 px-6 text-center">
+
+<h2 class="text-3xl font-bold mb-12">PRICING</h2>
+
+<div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+
+<div class="glass p-6 rounded-xl">
+<h3 class="font-bold">FREE</h3>
+<p class="text-gray-400">Basic AI tools</p>
+</div>
+
+<div class="glass p-6 rounded-xl border border-blue-500 neon">
+<h3 class="font-bold">PRO</h3>
+<p class="text-gray-400">Unlimited prompts</p>
+</div>
+
+<div class="glass p-6 rounded-xl">
+<h3 class="font-bold">CREATOR</h3>
+<p class="text-gray-400">All tools access</p>
+</div>
+
+</div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="py-10 text-center text-gray-400 border-t border-gray-800">
+
+<p class="mb-4">Built by SMORK</p>
+
+<div class="flex justify-center gap-6 text-xl mb-4">
+
+<a href="https://www.instagram.com/smork_frmdaeast"><i class="fa-brands fa-instagram"></i></a>
+
+<a href="https://www.facebook.com/share/1DhHJPTRXL/"><i class="fa-brands fa-facebook"></i></a>
+
+<a href="https://www.linkedin.com/in/smorkfrmdaeast"><i class="fa-brands fa-linkedin"></i></a>
+
+<a href="https://github.com/Smorkfrmdaeast"><i class="fa-brands fa-github"></i></a>
+
+</div>
+
+<p>Contact: ifeanyinuels32@gmail.com</p>
+
+</footer>
+
+
+<script>
+
+/* open tool section */
+function openTool(id){
+document.querySelectorAll("section").forEach(s=>{
+if(s.id==="chat"||s.id==="text"||s.id==="prompt"){
+s.classList.add("hidden")
+}
+})
+document.getElementById(id).classList.remove("hidden")
+window.scrollTo({top:document.getElementById(id).offsetTop,behavior:"smooth"})
+}
+
+/* chatbot */
+function sendChat(){
+let input=document.getElementById("chatInput")
+let box=document.getElementById("chatBox")
+
+let user=document.createElement("div")
+user.className="text-right mb-2"
+user.innerHTML="<span class='bg-blue-500 px-3 py-2 rounded'>"+input.value+"</span>"
+box.appendChild(user)
+
+let ai=document.createElement("div")
+ai.className="text-left mb-2 typing"
+ai.innerHTML="<span>.</span><span>.</span><span>.</span>"
+box.appendChild(ai)
+
+setTimeout(()=>{
+ai.innerHTML="<span class='bg-gray-700 px-3 py-2 rounded'>AI response simulation.</span>"
+},1500)
+
+input.value=""
+}
+
+/* text generator */
+function generateText(){
+let prompt=document.getElementById("textPrompt").value
+let tone=document.getElementById("tone").value
+
+document.getElementById("textResult").innerText=
+"Generated "+tone+" text for: "+prompt
+}
+
+/* prompt generator */
+function generatePrompt(){
+let topic=document.getElementById("topic").value
+let creativity=document.getElementById("creativity").value
+
+document.getElementById("promptResult").innerText=
+"Creative AI prompt about "+topic+" (level "+creativity+")"
+}
+
+</script>
+
+</body>
+                  </html>
