@@ -1,236 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMORK AI LAB – AI Tool Interface</title>
-
-<!-- React UMD CDN -->
-<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-<!-- Styles -->
+<title>SMORK AI LAB 🚀</title>
 <style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0a0f2c;
-  color: #fff;
-  transition: 0.4s;
-}
-.dark { background: #0a0f2c; color: #fff; }
-.light { background: #f5f7fa; color: #111; }
+/* BASIC RESET */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif; }
+body { background: #0A0F2C; color: #fff; overflow-x:hidden; transition: 0.3s; }
 
-.container { max-width: 480px; margin: 0 auto; padding: 20px; }
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+/* NEON COLORS */
+:root {
+  --primary: #00E0FF;
+  --accent: #8A2BE2;
+  --success: #28A745;
+  --danger: #FF4D4D;
+  --card-bg: rgba(20,30,60,0.8);
+  --hover-bg: rgba(0,224,255,0.1);
 }
 
-h1 { font-size: 1.6rem; }
+/* CONTAINERS */
+.container { padding: 20px; max-width: 450px; margin:auto; }
+h1,h2,h3 { margin-bottom: 12px; }
 
+/* BUTTONS */
 button {
-  border: none;
-  border-radius: 10px;
   padding: 10px 16px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.2s;
 }
+button:hover { opacity:0.85; }
 
-button:hover { transform: scale(1.05); }
+/* NEON BUTTONS */
+.primary { background: linear-gradient(90deg,var(--primary),var(--accent)); color:#0A0F2C; }
+.success { background: var(--success); color:#fff; }
+.danger { background: var(--danger); color:#fff; }
 
-.toggle { background: #00e0ff; color: #0a0f2c; }
+/* CARD UI */
+.card { background: var(--card-bg); padding:15px; border-radius:15px; margin-bottom:15px; box-shadow: 0 0 15px rgba(0,224,255,0.3); transition:0.2s; }
+.card:hover { box-shadow: 0 0 25px rgba(0,224,255,0.5); }
 
-.card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(8px);
-  border-radius: 15px;
-  padding: 15px;
-  margin-bottom: 15px;
-  transition: 0.3s;
-}
+/* QUICK ACTIONS */
+.actions { display:flex; justify-content:space-between; margin-bottom:20px; }
+.action-btn { flex:1; margin:0 5px; text-align:center; padding:10px; border-radius:12px; background: var(--card-bg); color:#fff; transition:0.2s; }
+.action-btn:hover { background: var(--hover-bg); }
 
-.card:hover { transform: scale(1.02); }
+/* TRANSACTION FEED */
+.transaction { display:flex; justify-content:space-between; padding:10px; border-radius:12px; margin-bottom:10px; background: rgba(255,255,255,0.05); }
+.transaction.credit { color: var(--success); }
+.transaction.debit { color: var(--danger); }
 
-input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  margin-bottom: 10px;
-}
+/* INPUTS */
+input[type=number], input[type=text] { width:100%; padding:10px; border-radius:10px; border:none; margin:8px 0; }
 
-.transaction { display: flex; justify-content: space-between; padding: 10px; border-radius: 10px; margin-bottom: 8px; }
-.credit { background: rgba(0,255,128,0.1); color: #0f0; }
-.debit { background: rgba(255,0,0,0.1); color: #f00; }
+/* NAVBAR */
+.navbar { display:flex; justify-content:space-around; position:fixed; bottom:0; width:100%; max-width:450px; background: var(--card-bg); padding:10px 0; border-radius:15px 15px 0 0; box-shadow:0 -2px 15px rgba(0,224,255,0.3); }
+.nav-item { color:#fff; font-size:1.2rem; cursor:pointer; transition:0.2s; }
+.nav-item.active { color: var(--primary); transform: scale(1.1); }
 
-.navbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  max-width: 480px;
-  display: flex;
-  justify-content: space-around;
-  background: rgba(0,0,0,0.7);
-  padding: 12px 0;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-}
+/* CHAT INTERFACE */
+.chat-box { max-height:300px; overflow-y:auto; margin-bottom:10px; }
+.message { padding:8px 12px; border-radius:12px; margin-bottom:6px; max-width:80%; }
+.user { background: var(--primary); color:#0A0F2C; margin-left:auto; text-align:right; }
+.ai { background: var(--accent); color:#fff; margin-right:auto; }
 
-.nav-item { text-align: center; cursor: pointer; }
-.nav-item.active { color: #00e0ff; font-weight: bold; }
+/* HERO */
+.hero { text-align:center; margin-bottom:20px; }
+.hero h1 { font-size:1.8rem; margin-bottom:10px; }
+.hero p { color:#8fa0b2; margin-bottom:15px; }
 
-.send-btn { background: #00e0ff; color: #0a0f2c; width: 100%; margin-top: 10px; }
-.cancel-btn { background: #ff3f3f; color: #fff; width: 100%; margin-top: 10px; }
+/* TOGGLE */
+.toggle { position:absolute; top:20px; right:20px; padding:8px 12px; border-radius:12px; border:none; cursor:pointer; }
 
-.result-card {
-  background: rgba(255,255,255,0.05);
-  padding: 12px;
-  border-radius: 10px;
-  margin-top: 10px;
-  min-height: 50px;
-}
+/* ANIMATIONS */
+@keyframes pulse { 0%{ transform:scale(1); } 50%{ transform:scale(1.05);} 100%{ transform:scale(1);} }
+.pulse { animation: pulse 1.2s infinite; }
+
 </style>
 </head>
-<body class="dark">
-<div id="root"></div>
+<body>
+<div class="container">
 
-<script type="text/babel">
-const { useState } = React;
+<!-- THEME TOGGLE -->
+<button class="toggle" id="themeToggle">🌙</button>
 
-function App() {
-  const [theme, setTheme] = useState("dark");
-  const [screen, setScreen] = useState("home");
-  const [wallet, setWallet] = useState(1000);
-  const [amount, setAmount] = useState("");
-  const [transactions, setTransactions] = useState([]);
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
+<!-- HERO -->
+<div class="hero">
+  <h1>SMORK AI LAB 🚀</h1>
+  <p>Build faster with AI Tools. Generate text, prompts, and interact with AI assistants.</p>
+  <button class="primary pulse" id="startAI">Try AI Tools</button>
+</div>
 
-  // Toggle theme
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    document.body.className = newTheme;
-  }
+<!-- WALLET CARD -->
+<div class="card">
+  <h3>Wallet Balance 💰</h3>
+  <h2 id="walletBalance">₦10,000</h2>
+</div>
 
-  // Handle send money
-  const handleSend = () => {
-    const amt = parseFloat(amount);
-    if(isNaN(amt) || amt <= 0) return alert("Enter valid amount");
-    if(amt > wallet) return alert("Insufficient funds");
+<!-- QUICK ACTIONS -->
+<div class="actions">
+  <div class="action-btn" id="sendBtn">Send 💸</div>
+  <div class="action-btn" id="addBtn">Add ➕</div>
+  <div class="action-btn" id="aiBtn">AI 🤖</div>
+</div>
 
-    setWallet(wallet - amt);
-    setTransactions([{ type:"debit", text:`Sent ₦${amt}` }, ...transactions]);
-    setAmount("");
-    alert("Money sent successfully!");
-    setScreen("home");
-  }
+<!-- TRANSACTION FEED -->
+<div class="card">
+  <h3>Recent Transactions 📝</h3>
+  <div id="transactionFeed">
+    <div class="transaction credit">Received ₦2,000</div>
+    <div class="transaction debit">Sent ₦500</div>
+  </div>
+</div>
 
-  // Handle add money
-  const handleAdd = () => {
-    const amt = parseFloat(amount);
-    if(isNaN(amt) || amt <= 0) return alert("Enter valid amount");
+<!-- CHAT / AI INTERFACE -->
+<div class="card" id="aiInterface" style="display:none;">
+  <h3>AI Chat 💬</h3>
+  <div class="chat-box" id="chatBox">
+    <div class="message ai">Hello! Ask me anything 🤖</div>
+  </div>
+  <input type="text" id="chatInput" placeholder="Type your question..."/>
+  <button class="primary" id="sendChat">Send</button>
+</div>
 
-    setWallet(wallet + amt);
-    setTransactions([{ type:"credit", text:`Added ₦${amt}` }, ...transactions]);
-    setAmount("");
-    alert("Money added successfully!");
-    setScreen("home");
-  }
+<!-- SEND MONEY PANEL -->
+<div class="card" id="sendPanel" style="display:none;">
+  <h3>Send Money 💸</h3>
+  <input type="number" id="sendAmount" placeholder="Amount">
+  <button class="success" id="confirmSend">Confirm</button>
+  <button class="danger" id="cancelSend">Cancel</button>
+</div>
 
-  // Handle AI Chat (placeholder for real API)
-  const handleAI = () => {
-    if(!input.trim()) return;
-    const userMsg = { type:"user", text: input };
-    setMessages([...messages, userMsg]);
-    setInput("");
-    // Placeholder simulated AI response
-    setTimeout(() => {
-      const aiMsg = { type:"ai", text: "This is a simulated AI response. Replace with real API call." };
-      setMessages(prev => [...prev, aiMsg]);
-    }, 800);
-  }
+<!-- ADD MONEY PANEL -->
+<div class="card" id="addPanel" style="display:none;">
+  <h3>Add Money ➕</h3>
+  <input type="number" id="addAmount" placeholder="Amount">
+  <button class="success" id="confirmAdd">Confirm</button>
+  <button class="danger" id="cancelAdd">Cancel</button>
+</div>
 
-  return (
-    <div className="container">
-      <header>
-        <h1>SMORK AI LAB</h1>
-        <button className="toggle" onClick={toggleTheme}>{theme==="dark"?"☀ Light":"🌙 Dark"}</button>
-      </header>
+<!-- FOOTER WITH SOCIAL LINKS -->
+<div class="card" style="text-align:center; font-size:0.9rem;">
+  <p>Connect with SMORK 🚀</p>
+  <p>
+    <a href="https://www.instagram.com/smork_frmdaeast?igsh=MWwwMHowMGhvcmY0dg==" target="_blank" style="color: var(--primary); text-decoration:none;">Instagram</a> |
+    <a href="https://www.facebook.com/share/1DhHJPTRXL/" target="_blank" style="color: var(--primary); text-decoration:none;">Facebook</a> |
+    <a href="https://www.linkedin.com/in/smorkfrmdaeast" target="_blank" style="color: var(--primary); text-decoration:none;">LinkedIn</a> |
+    <a href="https://github.com/Smorkfrmdaeast" target="_blank" style="color: var(--primary); text-decoration:none;">GitHub</a>
+  </p>
+  <p>Email: <a href="mailto:ifeanyinuels32@gmail.com" style="color: var(--primary); text-decoration:none;">ifeanyinuels32@gmail.com</a></p>
+</div>
 
-      {screen === "home" && (
-        <>
-          <div className="card">
-            <h3>Wallet Balance</h3>
-            <p>₦{wallet}</p>
-          </div>
+<!-- BOTTOM NAV -->
+<div class="navbar">
+  <div class="nav-item active" id="navHome">🏠</div>
+  <div class="nav-item" id="navSend">💸</div>
+  <div class="nav-item" id="navAdd">➕</div>
+  <div class="nav-item" id="navAI">🤖</div>
+</div>
 
-          <div className="card">
-            <button onClick={()=>setScreen("send")}>Send Money</button>
-            <button onClick={()=>setScreen("add")}>Add Money</button>
-            <button onClick={()=>setScreen("ai")}>AI Chat</button>
-          </div>
+</div>
 
-          <h3>Transactions</h3>
-          {transactions.length === 0 && <p>No transactions yet.</p>}
-          {transactions.map((t,i)=>(
-            <div key={i} className={`transaction ${t.type}`}>{t.text}</div>
-          ))}
-        </>
-      )}
+<script>
+/* THEME TOGGLE */
+const toggleBtn = document.getElementById('themeToggle');
+let dark = true;
+toggleBtn.addEventListener('click', ()=>{
+  dark = !dark;
+  document.body.style.background = dark ? '#0A0F2C' : '#F5F7FA';
+  document.body.style.color = dark ? '#fff' : '#111';
+  toggleBtn.textContent = dark ? '🌙' : '☀️';
+});
 
-      {screen === "send" && (
-        <div className="card">
-          <h3>Send Money</h3>
-          <input type="number" placeholder="Amount" value={amount} onChange={e=>setAmount(e.target.value)} />
-          <button className="send-btn" onClick={handleSend}>Confirm</button>
-          <button className="cancel-btn" onClick={()=>setScreen("home")}>Cancel</button>
-        </div>
-      )}
+/* NAVIGATION */
+const navHome = document.getElementById('navHome');
+const navSend = document.getElementById('navSend');
+const navAdd = document.getElementById('navAdd');
+const navAI = document.getElementById('navAI');
+const sendPanel = document.getElementById('sendPanel');
+const addPanel = document.getElementById('addPanel');
+const aiInterface = document.getElementById('aiInterface');
+const hero = document.querySelector('.hero');
 
-      {screen === "add" && (
-        <div className="card">
-          <h3>Add Money</h3>
-          <input type="number" placeholder="Amount" value={amount} onChange={e=>setAmount(e.target.value)} />
-          <button className="send-btn" onClick={handleAdd}>Add</button>
-          <button className="cancel-btn" onClick={()=>setScreen("home")}>Cancel</button>
-        </div>
-      )}
-
-      {screen === "ai" && (
-        <div className="card">
-          <h3>AI Chat</h3>
-          <div style={{maxHeight:"200px", overflowY:"auto", marginBottom:"10px"}}>
-            {messages.map((m,i)=>(
-              <div key={i} style={{textAlign:m.type==="user"?"right":"left"}}>
-                <div className="result-card">{m.text}</div>
-              </div>
-            ))}
-          </div>
-          <input placeholder="Ask AI..." value={input} onChange={e=>setInput(e.target.value)} />
-          <button className="send-btn" onClick={handleAI}>Send</button>
-          <button className="cancel-btn" onClick={()=>setScreen("home")}>Back</button>
-        </div>
-      )}
-
-      <nav className="navbar">
-        <div className={`nav-item ${screen==="home"?"active":""}`} onClick={()=>setScreen("home")}>Home</div>
-        <div className={`nav-item ${screen==="send"?"active":""}`} onClick={()=>setScreen("send")}>Send</div>
-        <div className={`nav-item ${screen==="add"?"active":""}`} onClick={()=>setScreen("add")}>Add</div>
-        <div className={`nav-item ${screen==="ai"?"active":""}`} onClick={()=>setScreen("ai")}>AI</div>
-      </nav>
-    </div>
-  );
+function resetPanels(){
+  sendPanel.style.display='none';
+  addPanel.style.display='none';
+  aiInterface.style.display='none';
+  hero.style.display='block';
+  navHome.classList.remove('active');
+  navSend.classList.remove('active');
+  navAdd.classList.remove('active');
+  navAI.classList.remove('active');
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+navHome.addEventListener('click',()=>{
+  resetPanels();
+  navHome.classList.add('active');
+});
+navSend.addEventListener('click',()=>{
+  resetPanels();
+  sendPanel.style.display='block';
+  navSend.classList.add('active');
+});
+navAdd.addEventListener('click',()=>{
+  resetPanels();
+  addPanel.style.display='block';
+  navAdd.classList.add('active');
+});
+navAI.addEventListener('click',()=>{
+  resetPanels();
+  aiInterface.style.display='block';
+  navAI.classList.add('active');
+});
+
+/* QUICK ACTIONS */
+document.getElementById('sendBtn').addEventListener('click',()=>navSend.click());
+document.getElementById('addBtn').addEventListener('click',()=>navAdd.click());
+document.getElementById('aiBtn').addEventListener('click',()=>navAI.click());
+
+/* WALLET & TRANSACTIONS */
+let wallet = 10000;
+const walletDisplay = document.getElementById('walletBalance');
+const transactionFeed = document.getElementById('transactionFeed');
+
+function addTransaction(type, amount){
+  const div = document.createElement('div');
+  div.className = 'transaction '+(type==='credit'?'credit':'debit');
+  div.textContent = (type==='credit'?'Received ':'Sent ') + '₦'+amount;
+  transactionFeed.prepend(div);
+  walletDisplay.textContent = '₦'+wallet;
+}
+
+/* SEND MONEY */
+document.getElementById('confirmSend').addEventListener('click',()=>{
+  const amt = Number(document.getElementById('sendAmount').value);
+  if(!amt || amt<=0){ alert('Enter valid amount'); return; }
+  if(amt>wallet){ alert('Insufficient funds'); return; }
+  wallet-=amt;
+  addTransaction('debit', amt);
+  document.getElementById('sendAmount').value='';
+  alert('Money sent ✅');
+});
+document.getElementById('cancelSend').addEventListener('click',()=>{
+  document.getElementById('sendAmount').value='';
+  navHome.click();
+});
+
+/* ADD MONEY */
+document.getElementById('confirmAdd').addEventListener('click',()=>{
+  const amt = Number(document.getElementById('addAmount').value);
+  if(!amt || amt<=0){ alert('Enter valid amount'); return; }
+  wallet+=amt;
+  addTransaction('credit', amt);
+  document.getElementById('addAmount').value='';
+  alert('Money added ✅');
+});
+document.getElementById('cancelAdd').addEventListener('click',()=>{
+  document.getElementById('addAmount').value='';
+  navHome.click();
+});
+
+/* AI CHAT SIMULATION */
+const chatBox = document.getElementById('chatBox');
+const chatInput = document.getElementById('chatInput');
+document.getElementById('sendChat').addEventListener('click',()=>{
+  const text = chatInput.value.trim();
+  if(!text) return;
+  const userMsg = document.createElement('div');
+  userMsg.className='message user';
+  userMsg.textContent = text;
+  chatBox.appendChild(userMsg);
+  chatInput.value='';
+  chatBox.scrollTop = chatBox.scrollHeight;
+  
+  setTimeout(()=>{
+    const aiMsg = document.createElement('div');
+    aiMsg.className='message ai';
+    aiMsg.textContent = "🤖 SMORK AI says: I'm a demo! Your question was '"+text+"'";
+    chatBox.appendChild(aiMsg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  },1000);
+});
 </script>
 </body>
-</html>
+      </html>
