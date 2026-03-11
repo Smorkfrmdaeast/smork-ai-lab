@@ -1,4 +1,4 @@
-5<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -49,7 +49,9 @@ body { background:#0A0F2C; color:#fff; transition:0.4s; }
 .toggle { padding:8px 12px; border:none; border-radius:12px; cursor:pointer; background:#00e0ff; color:#000; font-weight:bold; margin-bottom:20px; }
 
 /* ---------------- Footer ---------------- */
-footer { margin-top:40px; text-align:center; font-size:0.8rem; color:#c0f7ff; }
+footer { margin-top:40px; text-align:center; font-size:0.8rem; color:#c0f7ff; line-height:1.5; }
+footer a { color:#00e0ff; text-decoration:none; transition:0.3s; }
+footer a:hover { color:#00c0ff; }
 
 /* ---------------- Responsive ---------------- */
 @media (max-width:500px){ .dashboard{grid-template-columns:1fr 1fr; gap:10px;} }
@@ -72,21 +74,18 @@ function App() {
   useEffect(()=>{ document.body.className=theme; },[theme]);
   useEffect(()=>{ chatRef.current?.scrollTo(0,chatRef.current.scrollHeight); },[messages]);
 
-  // ---------- SEND FUNCTION FETCHING VERCEL API ----------
   const handleSend = async () => {
-    if (!input.trim()) return;
-
-    const userMsg = { type: "user", text: input };
-    setMessages([...messages, userMsg]);
+    if(!input.trim()) return;
+    const userMsg = { type:"user", text:input };
+    setMessages([...messages,userMsg]);
     setInput("");
 
     try {
-      // Replace <your-project-name> with your actual Vercel project name
-      const res = await fetch(`https://<your-project-name>.vercel.app/api/ai?question=${encodeURIComponent(userMsg.text)}`);
+      const res = await fetch(`https://smork-ai-lab.vercel.app/api/ai?question=${encodeURIComponent(userMsg.text)}`);
       const data = await res.json();
-      setMessages(prev => [...prev, { type: "ai", text: data.answer }]);
+      setMessages(prev => [...prev, { type:"ai", text: data.answer }]);
     } catch (err) {
-      setMessages(prev => [...prev, { type: "ai", text: "⚠️ AI server error. Try again later." }]);
+      setMessages(prev => [...prev, { type:"ai", text: "⚠️ AI server error" }]);
     }
   };
 
@@ -163,7 +162,11 @@ function App() {
       )}
 
       <footer>
-        SMORK AI LAB 🚀 | Portfolio Demo | Frontend Practice
+        SMORK AI LAB 🚀 | Frontend Demo | Practice Projects<br/>
+        📧 <a href="mailto:ifeanyinuels32@gmail.com">ifeanyinuels32@gmail.com</a> | 
+        🌐 <a href="https://github.com/Smorkfrmdaeast">GitHub</a> | 
+        📱 <a href="https://www.instagram.com/smork_frmdaeast">Instagram</a> | 
+        💼 <a href="https://www.linkedin.com/in/smorkfrmdaeast">LinkedIn</a>
       </footer>
     </div>
   );
