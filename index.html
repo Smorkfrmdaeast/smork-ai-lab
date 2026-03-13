@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SMORK AI LAB</title>
 
 <style>
@@ -12,40 +11,36 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;
+font-family:system-ui,-apple-system,Segoe UI,Roboto;
 }
 
 body{
 background:#0b0f19;
 color:white;
-height:100vh;
 display:flex;
 flex-direction:column;
+height:100vh;
 }
 
-/* Header */
+/* HEADER */
 
 header{
-padding:18px 24px;
-background:#111827;
-border-bottom:1px solid #1f2937;
 display:flex;
 justify-content:space-between;
 align-items:center;
-}
-
-header h1{
-font-size:18px;
-font-weight:600;
-letter-spacing:1px;
+padding:16px 24px;
+background:#111827;
+border-bottom:1px solid #1f2937;
 }
 
 .logo{
+font-weight:700;
+font-size:18px;
 color:#3b82f6;
 }
 
 .links a{
-margin-left:18px;
+margin-left:16px;
 text-decoration:none;
 color:#9ca3af;
 font-size:14px;
@@ -55,9 +50,9 @@ font-size:14px;
 color:white;
 }
 
-/* Chat container */
+/* CHAT AREA */
 
-.chat-wrapper{
+.chat-container{
 flex:1;
 display:flex;
 flex-direction:column;
@@ -67,24 +62,21 @@ width:100%;
 padding:20px;
 }
 
-/* Messages */
-
 .messages{
 flex:1;
 overflow-y:auto;
 display:flex;
 flex-direction:column;
-gap:16px;
+gap:14px;
 padding-bottom:20px;
 }
 
 .message{
 max-width:75%;
 padding:14px 16px;
-border-radius:12px;
+border-radius:10px;
+line-height:1.4;
 font-size:15px;
-line-height:1.5;
-animation:fade .25s ease;
 }
 
 .user{
@@ -97,24 +89,19 @@ align-self:flex-start;
 background:#1f2937;
 }
 
-@keyframes fade{
-from{opacity:0; transform:translateY(10px);}
-to{opacity:1; transform:translateY(0);}
-}
-
-/* Input */
+/* INPUT */
 
 .input-area{
 display:flex;
 gap:10px;
 border-top:1px solid #1f2937;
-padding-top:15px;
+padding-top:14px;
 }
 
 input{
 flex:1;
 padding:14px;
-border-radius:10px;
+border-radius:8px;
 border:none;
 background:#111827;
 color:white;
@@ -126,9 +113,9 @@ outline:1px solid #3b82f6;
 }
 
 button{
-padding:14px 22px;
+padding:14px 20px;
 border:none;
-border-radius:10px;
+border-radius:8px;
 background:#3b82f6;
 color:white;
 font-weight:600;
@@ -139,19 +126,20 @@ button:hover{
 background:#2563eb;
 }
 
-/* Footer */
+/* FOOTER */
 
 footer{
 text-align:center;
-padding:12px;
-font-size:12px;
-color:#6b7280;
+padding:14px;
 border-top:1px solid #1f2937;
-}
-
-.typing{
 font-size:13px;
 color:#9ca3af;
+}
+
+footer a{
+color:#3b82f6;
+text-decoration:none;
+margin:0 8px;
 }
 
 </style>
@@ -161,36 +149,48 @@ color:#9ca3af;
 
 <header>
 
-<h1 class="logo">SMORK AI LAB</h1>
+<div class="logo">🤖 SMORK AI LAB</div>
 
 <div class="links">
-<a href="#">GitHub</a>
-<a href="#">LinkedIn</a>
-<a href="#">Instagram</a>
+
+<a href="mailto:ifeanyinuels32@gmail.com" target="_blank">Email</a>
+
+<a href="https://github.com/Smorkfrmdaeast" target="_blank">GitHub</a>
+
+<a href="https://www.linkedin.com/in/smorkfrmdaeast" target="_blank">LinkedIn</a>
+
+<a href="https://www.instagram.com/smork_frmdaeast" target="_blank">Instagram</a>
+
+<a href="https://www.facebook.com/share/1DhHJPTRXL/" target="_blank">Facebook</a>
+
 </div>
 
 </header>
 
-<div class="chat-wrapper">
+<div class="chat-container">
 
 <div id="messages" class="messages">
 
 <div class="message ai">
-Welcome to <b>SMORK AI LAB</b> 🤖<br>
-Ask beginner coding questions like:<br><br>
-• What is HTML<br>
-• What is CSS<br>
-• What is JavaScript<br>
-• What is React
-</div>
+
+Welcome to <b>SMORK AI LAB</b> 🤖
+
+Ask beginner coding questions like:
+
+• What is HTML  
+• What is CSS  
+• What is JavaScript  
+• What is React  
+• What is GitHub  
+• What can you do  
 
 </div>
 
-<div class="typing" id="typing"></div>
+</div>
 
 <div class="input-area">
 
-<input id="question" placeholder="Ask a coding question..." />
+<input id="question" placeholder="Ask a tech question...">
 
 <button onclick="sendQuestion()">Send</button>
 
@@ -200,61 +200,72 @@ Ask beginner coding questions like:<br><br>
 
 <footer>
 
-POWERED BY SMORK'S TECH ⚡
+POWERED BY <b>SMORK'S TECH</b> 💻  
+<br><br>
+
+<a href="https://github.com/Smorkfrmdaeast">GitHub</a> |
+<a href="https://www.linkedin.com/in/smorkfrmdaeast">LinkedIn</a> |
+<a href="https://www.instagram.com/smork_frmdaeast">Instagram</a> |
+<a href="https://www.facebook.com/share/1DhHJPTRXL/">Facebook</a>
+
+<br><br>
+
+Contact: <a href="mailto:ifeanyinuels32@gmail.com">ifeanyinuels32@gmail.com</a>
 
 </footer>
 
 <script>
 
-const messages = document.getElementById("messages")
-const input = document.getElementById("question")
-const typing = document.getElementById("typing")
-
-function addMessage(text, type){
-
-const msg = document.createElement("div")
-msg.className = `message ${type}`
-msg.innerText = text
-
-messages.appendChild(msg)
-messages.scrollTop = messages.scrollHeight
-
-}
+const messages=document.getElementById("messages")
 
 async function sendQuestion(){
 
-const question = input.value.trim()
+const input=document.getElementById("question")
 
-if(!question) return
+const text=input.value.trim()
 
-addMessage(question,"user")
+if(!text) return
+
+const userMsg=document.createElement("div")
+userMsg.className="message user"
+userMsg.innerText=text
+
+messages.appendChild(userMsg)
+
+messages.scrollTop=messages.scrollHeight
 
 input.value=""
 
-typing.innerText="SMORK AI is thinking..."
-
 try{
 
-const res = await fetch(`/api/ai?question=${encodeURIComponent(question)}`)
+const res=await fetch(`/api/ai?question=${encodeURIComponent(text)}`)
 
-const data = await res.json()
+const data=await res.json()
 
-typing.innerText=""
+const aiMsg=document.createElement("div")
+aiMsg.className="message ai"
+aiMsg.innerText=data.answer
 
-addMessage(data.answer,"ai")
+messages.appendChild(aiMsg)
 
-}catch(err){
+messages.scrollTop=messages.scrollHeight
 
-typing.innerText=""
+}catch{
 
-addMessage("Server error.","ai")
+const err=document.createElement("div")
+err.className="message ai"
+err.innerText="Server error."
+
+messages.appendChild(err)
 
 }
 
 }
 
-input.addEventListener("keypress",function(e){
-if(e.key==="Enter") sendQuestion()
+document.getElementById("question").addEventListener("keypress",function(e){
+if(e.key==="Enter"){
+sendQuestion()
+}
 })
 
 </script>
